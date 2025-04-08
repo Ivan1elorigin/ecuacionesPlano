@@ -35,15 +35,6 @@ def compararVectoresDirectores(v, u):
 
     return equal
 
-def newVector(A, B): #Construimos un vector a partir de dos puntos
-    vector = []
-    for i in range(0, A.shape[0]):
-        vector.append(B[i] - A[i])
-        
-    
-    vector = np.array(vector)
-    return vector
-
 def onePointInLine(a, c, d):
     v = d-c
 
@@ -70,20 +61,27 @@ def onePointInLine(a, c, d):
     
     return pointInLine
 
-def typeVectorPair(v, u):
+def typeVectorPair(a , b, c, d):
+    v = b - a
+    u = d - c
+
     if (compararVectoresDirectores(v, u)):
-        if (): # si las rectas son coincindentes
+        if (onePointInLine(a, c, d)): # si las rectas son coincindentes
             print("Se trata de dos rectas coincidentes.")
         else:
-            print("Se tratan de dos rectas paralelas son coindicentes")
+            print("Se tratan de dos rectas paralelas no coincidentes.")
     else:
-        thirdVector = newVector(v, u) # A partir de los vectores v y u creamos un nuevo vector que contienen los puntos finales.
+        # thirdVector = newVector(v, u) # A partir de los vectores v y u creamos un nuevo vector que contienen los puntos finales.
+        thirdVector = d - b
         M = np.array([v, u, thirdVector])
         matrix = M.T #Nos interesa ver los vectores como las columnas de la matriz.
+        print(matrix)
         if (np.linalg.det(matrix) == 0): # el determinante de la matriz con esos dos y un tercero formado por puntos de los dos.
-            if (np.dot(v, u)): # Hacemos el producto escalar de los dos vectores.
+            if (np.dot(v, u) == 0): # Hacemos el producto escalar de los dos vectores.
                 print("Se tratan de dos rectas perpendiculares.")
             else:
                 print("Se trata de dos rectas secantes.")
         else:
             print("Rectes que es creuen.")    
+
+print("Ejecutado")
