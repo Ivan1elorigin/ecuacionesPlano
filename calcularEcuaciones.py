@@ -82,6 +82,82 @@ def typeVectorPair(a , b, c, d):
             else:
                 print("Se trata de dos rectas secantes.")
         else:
-            print("Rectes que es creuen.")    
+            print("Rectes que es creuen.") 
+
+def forma_escalonada(matriz):
+    A = matriz.astype(float).copy()
+    filas, columnas = A.shape
+    fila_pivote = 0
+
+    for col in range(columnas):
+        if fila_pivote >= filas:
+            break
+
+        max_fila = np.argmax(np.abs(A[fila_pivote:, col])) + fila_pivote
+        if A[max_fila, col]  == 0:
+            continue
+
+        A[[fila_pivote, max_fila]] = A[[max_fila, fila_pivote]]
+
+        A[fila_pivote] = A[fila_pivote] / A[fila_pivote, col]
+
+        for f in range(fila_pivote + 1, filas):
+            A[f] = A[f] - A[fila_pivote] * A[f, col]
+
+        fila_pivote += 1
+
+    return A
+
+def adjunta(matriz):
+    A = np.array(matriz, dtype=float)
+    n, m = A.shape
+
+    if n != m:
+        raise ValueError("La matriz debe ser cuadrada para calcular la adjunta.")
+
+    adj = np.zeros_like(A)
+
+    for i in range(n):
+        for j in range(n):
+            menor = np.delete(np.delete(A, i, axis=0), j, axis=1)
+
+            cofactor = ((-1) ** (i + j)) * np.linalg.det(menor)
+            adj[j, i] = cofactor
+
+    return adj
+
+def cofactores(matriz):
+    A = np.array(matriz, dtype=float)
+    n, m = A.shape
+
+    if n != m:
+        raise ValueError("La matriz debe ser cuadrada para calcular la adjunta.")
+
+    adj = np.zeros_like(A)
+
+    for i in range(n):
+        for j in range(n):
+            menor = np.delete(np.delete(A, i, axis=0), j, axis=1)
+
+            cofactor = ((-1) ** (i + j)) * np.linalg.det(menor)
+            adj[i,j] = cofactor
+
+    return adj
+
+def trasposicionManual(matrix):
+    g = matrix.copy()
+
+    a = np.empty(matrix.shape)
+
+
+    n, m = g.shape
+
+    for i in range(n):
+        for j in range(m):
+            a[j, i] = g[i, j]
+
+    return a
+    
+
 
 print("Ejecutado")
