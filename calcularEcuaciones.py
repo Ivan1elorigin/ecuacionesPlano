@@ -205,12 +205,15 @@ def DiscutirSistema(M, MA, verbose = True):
     filas = M.shape[0]
     columnas = M.shape[1]
 
-    if RangeOfMatrix(M, min(filas, columnas), verbose) == M.shape[0]:
+    rangeOfM = RangeOfMatrix(M, min(filas, columnas), verbose)
+    rangeOfMA = RangeOfMatrix(MA, min(filas, columnas), verbose)
+
+    if rangeOfM == M.shape[0]:
         print("Sistema compatible determinado.")
-    elif (RangeOfMatrix(M, min(filas, columnas), verbose) < RangeOfMatrix(MA, min(filas, columnas), verbose)):
+    elif (rangeOfM < rangeOfMA):
         print("Sistema incompatible.")
-    elif (RangeOfMatrix(M, min(filas, columnas), verbose) < M.shape[0]):
-        print(f"Sistema compatible indeterminado. De rango: {RangeOfMatrix(M, min(filas, columnas), verbose)}")
+    elif (rangeOfM < M.shape[0]):
+        print(f"Sistema compatible indeterminado. De rango: {rangeOfM}")
 
 
 
