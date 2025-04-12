@@ -219,6 +219,31 @@ def DiscutirSistema(M, MA, verbose = True):
     print(forma_escalonada(MA))
 
 
+def ReplaceA(M, a):
+
+    # Guardamos los tipos originales
+    tipos_originales = np.vectorize(type)(M)
+
+    # Convertimos a string y reemplazamos
+    matriz_str = M.astype(str)
+    matriz_reemplazada = np.char.replace(matriz_str, 'k', a)
+
+    # Restauramos el tipo original
+
+    def restaurar(valor_str, tipo_original):
+        try:
+            if valor_str == 'None':
+                return None
+            return tipo_original(valor_str)
+        except:
+            return valor_str
+
+    restaurar_vectorizado = np.vectorize(restaurar)
+    matriz_final = restaurar_vectorizado(matriz_reemplazada, tipos_originales)
+
+
+    return matriz_final
+
 
 
 print("Ejecutado")
