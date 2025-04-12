@@ -244,6 +244,13 @@ def ReplaceA(M, a):
 
     return matriz_final
 
+def DiscutirSistemaConK(M, MA):
+
+    for k in range(-100, 100):
+        auxM = ReplaceA(M)
+        auxMA = ReplaceA(MA)
+        DiscutirSistema(M, MA)
+
 
 
 print("Ejecutado")
