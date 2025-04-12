@@ -215,6 +215,9 @@ def DiscutirSistema(M, MA, verbose = True):
     elif (rangeOfM < M.shape[0]):
         print(f"Sistema compatible indeterminado. De rango: {rangeOfM}")
 
+    print("Resolución del sistema:")
+    print(forma_escalonada(MA))
+
 
 
 
