@@ -189,7 +189,7 @@ def MinorDetDif0(M, eye, verbose = True):
                 print(f"Filas {f_idxs}, Columnas {c_idxs}")
                 print(submatriz)
                 print(f"Det: {det:.2f}\n")
-            if (det):
+            if (det): # Si es distinto de 0 devuelve true.
                 return True
     
     return False
@@ -201,6 +201,18 @@ def RangeOfMatrix(M ,n, verbose = True):
     else:
         return RangeOfMatrix(M, n - 1, verbose)
     
-    
+def DiscutirSistema(M, MA, verbose = True):
+    filas = M.shape[0]
+    columnas = M.shape[1]
+
+    if RangeOfMatrix(M, min(filas, columnas), verbose) == M.shape[0]:
+        print("Sistema compatible determinado.")
+    elif (RangeOfMatrix(M, min(filas, columnas), verbose) < RangeOfMatrix(MA, min(filas, columnas), verbose)):
+        print("Sistema incompatible.")
+    elif (RangeOfMatrix(M, min(filas, columnas), verbose) < M.shape[0]):
+        print(f"Sistema compatible indeterminado. De rango: {RangeOfMatrix(M, min(filas, columnas), verbose)}")
+
+
+
 
 print("Ejecutado")
