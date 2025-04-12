@@ -247,9 +247,9 @@ def ReplaceA(M, a):
 def DiscutirSistemaConK(M, MA):
 
     for k in range(-100, 100):
-        auxM = ReplaceA(M)
-        auxMA = ReplaceA(MA)
-        DiscutirSistema(M, MA)
+        auxM = ReplaceA(M, k)
+        auxMA = ReplaceA(MA, k)
+        DiscutirSistema(auxM, auxMA)
 
 
 
