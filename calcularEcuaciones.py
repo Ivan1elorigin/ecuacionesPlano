@@ -1,5 +1,6 @@
 from IPython.display import display, Math
 import numpy as np
+from itertools import combinations
 
 def ecuacionGeneral(p, v, u):
     a, b, c = p #destructuring
@@ -159,5 +160,47 @@ def trasposicionManual(matrix):
     return a
     
 
+def ValorKDet0(M, kIni, kFin):
+    KValues = []
+    vector.reshape(M.shape) 
+    for k in range(kIni, kFin):
+        filas = M.shape[0]
+        columnas = M.shape[1]
+        vector = np.array([])
+        for i in range(filas):
+            for j in range(columnas):
+                np.append(vector, M[i][j])
+        if np.linalg.det(A) == 0:
+            KValues.append(k)
+    return KValues
+
+
+def MinorDetDif0(M, eye, verbose = True):
+    filas, columnas = M.shape
+
+    filas_combi = list(combinations(range(filas), eye))
+    col_combi = list(combinations(range(columnas), eye))
+
+    for f_idxs in filas_combi:
+        for c_idxs in col_combi:
+            submatriz = M[np.ix_(f_idxs, c_idxs)]
+            det = np.linalg.det(submatriz)
+            if verbose:
+                print(f"Filas {f_idxs}, Columnas {c_idxs}")
+                print(submatriz)
+                print(f"Det: {det:.2f}\n")
+            if (det):
+                return True
+    
+    return False
+    
+def RangeOfMatrix(M ,n, verbose = True):
+    
+    if MinorDetDif0(M, n, verbose):
+        return n
+    else:
+        return RangeOfMatrix(M, n - 1, verbose)
+    
+    
 
 print("Ejecutado")
