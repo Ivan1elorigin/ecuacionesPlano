@@ -208,48 +208,60 @@ def DiscutirSistema(M, MA, verbose = True):
     rangeOfM = RangeOfMatrix(M, min(filas, columnas), verbose)
     rangeOfMA = RangeOfMatrix(MA, min(filas, columnas), verbose)
 
+    typeOfSystem = 0
     if rangeOfM == M.shape[0]:
         print("Sistema compatible determinado.")
+        typeOfSystem = 1
     elif (rangeOfM < rangeOfMA):
         print("Sistema incompatible.")
+        typeOfSystem = 2
     elif (rangeOfM < M.shape[0]):
         print(f"Sistema compatible indeterminado. De rango: {rangeOfM}")
+        typeOfSystem = 3
 
     print("Resolución del sistema:")
     print(forma_escalonada(MA))
+    ### Valor que retorna por tipo de sistema
+    # 1-CD
+    # 2-I
+    # 3-CI
+
+    return typeOfSystem
 
 
 def ReplaceA(M, a):
-
-    # Guardamos los tipos originales
-    tipos_originales = np.vectorize(type)(M)
-
     # Convertimos a string y reemplazamos
     matriz_str = M.astype(str)
-    matriz_reemplazada = np.char.replace(matriz_str, 'k', a)
-
+    matriz_reemplazada = np.char.replace(matriz_str, 'k', str(a))
     # Restauramos el tipo original
-
-    def restaurar(valor_str, tipo_original):
-        try:
-            if valor_str == 'None':
-                return None
-            return tipo_original(valor_str)
-        except:
-            return valor_str
-
-    restaurar_vectorizado = np.vectorize(restaurar)
-    matriz_final = restaurar_vectorizado(matriz_reemplazada, tipos_originales)
-
-
+    try:
+        matriz_final = matriz_reemplazada.astype('float')   
+    except ValueError as e:
+        print("Error al convertir la matriz a float:", e)
+        raise
     return matriz_final
 
 def DiscutirSistemaConK(M, MA):
 
+    dictionariOfSolutions = {
+        "CD": [],
+        "I": [],
+        "CI": []
+    }
+
     for k in range(-100, 100):
         auxM = ReplaceA(M, k)
         auxMA = ReplaceA(MA, k)
-        DiscutirSistema(auxM, auxMA)
+        typeOfSystem = DiscutirSistema(auxM, auxMA)
+
+        if typeOfSystem == 1:
+            dictionariOfSolutions["CD"].append(k)
+        elif typeOfSystem == 2:
+            dictionariOfSolutions["I"].append(k)
+        elif typeOfSystem == 3:
+            dictionariOfSolutions["CI"].append(k)
+
+    return dictionariOfSolutions
 
 
 
